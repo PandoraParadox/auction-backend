@@ -1,0 +1,35 @@
+# Node modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs
+*.log
+*.log.*
+
+# Environment variables
+.env
+.env.*
+
+# Build output
+dist/
+build/
+.next/
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor config
+.vscode/
+.idea/
+
+# Firebase key
+**/serviceAccountKey.json
+
+
+# Uploaded files
+be/uploads/
