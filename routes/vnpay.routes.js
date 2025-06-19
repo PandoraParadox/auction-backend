@@ -44,7 +44,7 @@ router.post('/', async (req, res) => {
         const tmnCode = 'BV75DJC9';
         const secretKey = '6XYUKVL08K6M4TLLF7LC64A8X1EI8U92';
         const vnpUrl = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';
-        const returnUrl = 'http://localhost:5000/api/v1/vnpay/return';
+        const returnUrl = 'https://auction-backend-production-2602.up.railway.app/api/v1/vnpay/return';
 
         const date = new Date();
         const createDate = date.getFullYear().toString() +
