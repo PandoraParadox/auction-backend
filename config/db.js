@@ -1,199 +1,29 @@
-const mysql = require('mysql2/promise');
-require('dotenv').config();
+const mysql = require("mysql2/promise");
+require("dotenv").config();
 
-(async () => {
-  const connection = await mysql.createConnection({
+const pool = mysql.createPool({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE
-  });
+    database: process.env.MYSQL_DATABASE,
+    typeCast: function (field, next) {
+        if (field.type === "JSON" || field.type === "TEXT") {
+            const val = field.string();
+            return val ? JSON.parse(val) : null;
+        }
+        return next();
+    }
+});
 
-  try {
-    console.log("🚀 Initializing database...");
-
-
-  await connection.query(`
-  INSERT INTO wallet_transactions (id, wallet_id, type, amount, description, created_at) VALUES
-    (1, 1, 'Bids', 1321322.06, 'Bidding item : Pie', '2025-05-09 14:19:02'),
-    (2, 1, 'Bids', 1321322.07, 'Bidding item : Pie', '2025-05-09 14:34:21'),
-    (3, 1, 'Bids', 1321322.08, 'Bidding item : Pie', '2025-05-09 14:35:50'),
-    (4, 1, 'Bids', 76767676.01, 'Bidding item : CHARLES & KEITH Cesia', '2025-05-10 14:01:12'),
-    (5, 1, 'Bids', 76767676.02, 'Bidding item : CHARLES & KEITH Cesia', '2025-05-10 14:01:13'),
-    (6, 1, 'Bids', 76767676.03, 'Bidding item : CHARLES & KEITH Cesia', '2025-05-10 14:01:14'),
-    (7, 1, 'Bids', 76767676.04, 'Bidding item : CHARLES & KEITH Cesia', '2025-05-10 14:01:17'),
-    (8, 1, 'Add Funds', 12321322.00, 'Add Funds', '2025-05-10 14:36:26'),
-    (9, 1, 'Add Funds', 4323423.00, 'Add Funds', '2025-05-10 14:39:10'),
-    (10, 1, 'Add Funds', 123213213.00, 'Add', '2025-05-10 14:40:12'),
-    (11, 1, 'Withdrawal', 12333322.00, 'Withdrawl', '2025-05-10 14:48:39'),
-    (12, 1, 'Add Funds', 1232321.00, 'Buy new laptop', '2025-05-10 14:59:51'),
-    (13, 1, 'Add Funds', 13213213.00, 'DDOS', '2025-05-10 15:00:58'),
-    (14, 1, 'Add Funds', 3123213.00, 'ACERRRE', '2025-05-10 15:02:13'),
-    (15, 1, 'Add Funds', 1321312.00, 'WER', '2025-05-10 15:03:46'),
-    (16, 1, 'Add Funds', 31231231.00, 'SEDAT', '2025-05-10 15:04:23'),
-    (17, 1, 'Withdrawal', 12321321.00, 'asdasd', '2025-05-10 15:07:13'),
-    (18, 1, 'Add Funds', 9999999999.99, 'test confirm', '2025-05-11 10:18:45'),
-    (19, 1, 'Add Funds', 123123131.00, 'RDU', '2025-05-11 10:21:57'),
-    (20, 1, 'Bids', 9867676.01, 'Bidding item : GIOVANNI handbags', '2025-05-11 10:23:19'),
-    (21, 1, 'Bids', 9867676.02, 'Bidding item : GIOVANNI handbags', '2025-05-11 10:23:20'),
-    (22, 1, 'Bids', 9867676.03, 'Bidding item : GIOVANNI handbags', '2025-05-11 10:23:21'),
-    (23, 1, 'Confirm', 9867676.03, 'Confirm payment: GIOVANNI handbags', '2025-05-11 10:24:34'),
-    (24, 1, 'Add Funds', 1312312321.00, 'POI', '2025-05-11 10:40:33'),
-    (25, 1, 'Add Funds', 1231231231.00, 'EFS', '2025-05-11 10:41:51'),
-    (26, 2, 'Bids', 6212122.00, 'Bidding item : Nike Off-White x Air Jordan 1 Retro High OG ''Chicago''', '2025-05-11 16:39:38'),
-    (27, 2, 'Add Funds', 12313213.00, 'DEER', '2025-05-11 16:50:29'),
-    (28, 2, 'Withdrawal', 2000000.00, 'SEERSA', '2025-05-11 16:51:33'),
-    (29, 2, 'Add Funds', 3000000.00, 'PIUSD', '2025-05-11 16:54:26'),
-    (30, 2, 'Add Funds', 4000000.00, 'SDW', '2025-05-11 17:05:23'),
-    (31, 2, 'Add Funds', 4000000.00, 'DERRRE', '2025-05-11 17:48:19'),
-    (32, 2, 'Add Funds', 4000000.00, 'DDEQ', '2025-05-11 17:56:17'),
-    (33, 2, 'Add Funds', 4000000.00, 'SEWW', '2025-05-11 17:57:12'),
-    (34, 2, 'Add Funds', 4000000.00, 'IWKE', '2025-05-11 17:59:37'),
-    (35, 2, 'Add Funds', 4000000.00, 'SQEW', '2025-05-11 18:02:25'),
-    (36, 2, 'Add Funds', 4000000.00, 'WEQW', '2025-05-11 18:03:17'),
-    (37, 2, 'Add Funds', 4000000.00, 'KWE', '2025-05-11 18:08:10'),
-    (38, 2, 'Add Funds', 3000000.00, 'QWQ', '2025-05-11 18:09:00'),
-    (39, 2, 'Add Funds', 1000000.00, 'OWQ', '2025-05-11 18:10:14'),
-    (40, 2, 'Add Funds', 5000000.00, 'QWQW', '2025-05-11 18:10:46'),
-    (41, 1, 'Add Funds', 23000000.00, 'QWMAS', '2025-05-12 14:23:01'),
-    (42, 1, 'Bids', 5321323.00, 'Bidding item : Nike Dunk High Retro Men''s Gymnastic', '2025-05-12 14:37:34'),
-    (43, 1, 'Bids', 10321323.00, 'Bidding item : Nike Dunk High Retro Men''s Gymnastic', '2025-05-12 14:37:53'),
-    (44, 1, 'Withdrawal', 3000000.00, 'QOSDD', '2025-05-12 15:00:07'),
-    (45, 1, 'Add Funds', 15000000.00, 'SQES', '2025-05-12 15:03:36'),
-    (46, 1, 'Confirm', 10321323.00, 'Confirm payment: Nike Dunk High Retro Men''s Gymnastic', '2025-05-12 15:30:54'),
-    (47, 1, 'Add Funds', 20000000.00, 'KQSDS', '2025-05-12 16:47:16'),
-    (48, 1, 'Bids', 7324344.00, 'Bidding item : Adidas ZX 8000 Kawasaki Shoes Men''s', '2025-05-13 14:12:21'),
-    (49, 1, 'Bids', 12324344.00, 'Bidding item : Adidas ZX 8000 Kawasaki Shoes Men''s', '2025-05-13 14:12:48'),
-    (50, 2, 'Bids', 17324344.00, 'Bidding item : Adidas ZX 8000 Kawasaki Shoes Men''s', '2025-05-13 14:17:01'),
-    (51, 1, 'Bids', 22324344.00, 'Bidding item : Adidas ZX 8000 Kawasaki Shoes Men''s', '2025-05-13 14:17:48'),
-    (52, 2, 'Add Funds', 20000000.00, 'JSAS', '2025-04-13 14:25:08'),
-    (53, 2, 'Bids', 27324344.00, 'Bidding item : Adidas ZX 8000 Kawasaki Shoes Men''s', '2025-05-13 14:51:09'),
-    (54, 1, 'Add Funds', 15000000.00, 'IQNS', '2025-05-13 14:51:39'),
-    (55, 1, 'Bids', 32324344.00, 'Bidding item : Adidas ZX 8000 Kawasaki Shoes Men''s', '2025-05-13 14:51:50'),
-    (56, 2, 'Bids', 37324344.00, 'Bidding item : Adidas ZX 8000 Kawasaki Shoes Men''s', '2025-05-13 14:52:54'),
-    (57, 2, 'Bids', 37324344.00, 'Bidding item : Adidas ZX 8000 Kawasaki Shoes Men''s', '2025-05-13 14:53:00'),
-    (58, 2, 'Add Funds', 2000000.00, 'KQWDS', '2025-05-13 14:53:19'),
-    (59, 2, 'Bids', 37324344.00, 'Bidding item : Adidas ZX 8000 Kawasaki Shoes Men''s', '2025-05-13 14:53:36'),
-    (60, 2, 'Add Funds', 10000000.00, 'KSND', '2025-05-13 15:04:18'),
-    (61, 2, 'Bids', 42324344.00, 'Bidding item : Adidas ZX 8000 Kawasaki Shoes Men''s', '2025-05-13 15:04:32'),
-    (62, 2, 'Bids', 47324344.00, 'Bidding item : Adidas ZX 8000 Kawasaki Shoes Men''s', '2025-05-13 15:13:53'),
-    (63, 2, 'Bids', 5433523.00, 'Bidding item : Himalaya handbags', '2025-05-13 15:26:44'),
-    (64, 2, 'Add Funds', 10000000.00, 'OQNDS', '2025-05-13 15:26:58'),
-    (65, 2, 'Bids', 5433523.00, 'Bidding item : Himalaya handbags', '2025-05-13 15:27:16'),
-    (66, 2, 'Bids', 10433523.00, 'Bidding item : Himalaya handbags', '2025-05-13 15:27:25'),
-    (67, 2, 'Bids', 15433523.00, 'Bidding item : Himalaya handbags', '2025-05-13 15:33:40'),
-    (68, 2, 'Bids', 15433523.00, 'Bidding item : Himalaya handbags', '2025-05-13 15:35:53'),
-    (69, 2, 'Bids', 15433523.00, 'Bidding item : Himalaya handbags', '2025-05-13 15:39:44'),
-    (70, 2, 'Bids', 15433523.00, 'Bidding item : Himalaya handbags', '2025-05-13 15:40:34'),
-    (71, 2, 'Bids', 15433523.00, 'Bidding item : Himalaya handbags', '2025-05-13 15:42:52'),
-    (72, 2, 'Bids', 15433523.00, 'Bidding item : Himalaya handbags', '2025-05-13 15:43:54'),
-    (73, 2, 'Bids', 81767676.00, 'Bidding item : CHARLES & KEITH Cesia', '2025-05-15 12:23:35'),
-    (74, 2, 'Add Funds', 10000000.00, 'QƯEW', '2025-05-15 12:23:53'),
-    (75, 2, 'Bids', 81767676.00, 'Bidding item : CHARLES & KEITH Cesia', '2025-05-15 12:24:04'),
-    (76, 2, 'Add Funds', 100000000.00, 'QƯQƯE', '2025-05-15 12:24:18'),
-    (77, 2, 'Confirm', 10433523.00, 'Confirm payment: Himalaya handbags', '2025-05-15 15:25:29'),
-    (78, 2, 'Bids', 5054345.00, 'Bidding item : Mouawad 1001 Nights Diamond Purse', '2025-05-15 15:34:18'),
-    (79, 1, 'Bids', 10054345.00, 'Bidding item : Mouawad 1001 Nights Diamond Purse', '2025-05-15 15:34:44'),
-    (80, 2, 'Confirm', 15054345.00, 'Confirm payment: Mouawad 1001 Nights Diamond Purse', '2025-05-15 15:38:52'),
-    (81, 1, 'Bids', 10543545.00, 'Bidding item : Chanel Diamond Forever Bag', '2025-05-15 15:48:21'),
-    (82, 1, 'Bids', 20543545.00, 'Bidding item : Chanel Diamond Forever Bag', '2025-05-15 15:50:26'),
-    (83, 2, 'Confirm', 42324344.00, 'Confirm payment: Adidas ZX 8000 Kawasaki Shoes Men''s', '2025-05-15 15:51:23'),
-    (84, 1, 'Bids', 10033252.00, 'Bidding item : Judith Leiber Precious Rose', '2025-05-15 16:30:02'),
-    (85, 1, 'Bids', 25033252.00, 'Bidding item : Judith Leiber Precious Rose', '2025-05-15 16:36:29'),
-    (86, 1, 'Bids', 14342322.00, 'Bidding item : Qianlong porcelain vase', '2025-05-15 16:52:59'),
-    (87, 2, 'Add Funds', 50000000.00, 'GƯERG', '2025-05-15 22:00:02'),
-    (88, 1, 'Bids', 6111111.00, 'Bidding item : Laptop Dell ', '2025-05-15 22:10:07'),
-    (89, 1, 'Bids', 16111111.00, 'Bidding item : Laptop Dell ', '2025-05-15 22:10:12'),
-    (90, 2, 'Confirm', 25543545.00, 'Confirm payment: Chanel Diamond Forever Bag', '2025-05-15 22:18:59'),
-    (91, 1, 'Bids', 6111111.00, 'Bidding item : Motobike', '2025-05-15 22:20:20'),
-    (92, 2, 'Bids', 6212121.00, 'Bidding item : Magic pad', '2025-05-15 22:33:01'),
-    (93, 1, 'Bids', 11212121.00, 'Bidding item : Magic pad', '2025-05-15 22:33:24'),
-    (94, 2, 'Bids', 14000000.00, 'Bidding item : Hermès Birkin Bag', '2025-05-16 15:37:40'),
-    (95, 2, 'Bids', 24000000.00, 'Bidding item : Hermès Birkin Bag', '2025-05-16 15:37:49'),
-    (96, 2, 'Confirm', 47334343.00, 'Confirm payment: Prada Brandy Top Handle Bag', '2025-05-16 15:38:46'),
-    (97, 2, 'Bids', 14000000.00, 'Bidding item : Macallan 1926 Fine & Rare ', '2025-05-17 09:34:05'),
-    (98, 2, 'Bids', 10000000.00, 'Bidding item : Bugatti La Voiture Noire', '2025-05-17 09:34:09'),
-    (99, 2, 'Add Funds', 10000000.00, 'IWNE', '2025-05-17 09:43:06'),
-    (100, 2, 'Add Funds', 10000000.00, 'NFWE', '2025-05-17 09:43:23'),
-    (101, 2, 'Bids', 6000000.00, 'Bidding item : Rolex Daytona Rainbow ', '2025-05-17 09:43:48'),
-    (102, 2, 'Bids', 6321322.00, 'Bidding item : Natri Clorid 2', '2025-05-17 09:54:10'),
-    (103, 2, 'Withdrawal', 50000000.00, 'TEST 2 PENDING', '2025-05-19 14:22:42'),
-    (104, 2, 'Withdrawal', 42000000.00, 'ÊWWWW', '2025-05-20 12:39:51'),
-    (105, 2, 'Bids', 6232132.00, 'Bidding item : Soffell', '2025-05-20 12:40:12'),
-    (106, 2, 'Bids', 5123232.00, 'Bidding item : Stephen Hawking', '2025-05-20 12:40:26'),
-    (107, 2, 'Bids', 5123232.00, 'Bidding item : Stephen Hawking', '2025-05-20 12:40:31'),
-    (108, 2, 'Bids', 11232132.00, 'Bidding item : Soffell', '2025-05-20 12:40:50'),
-    (109, 2, 'Add Funds', 13000000.00, 'KBCCC', '2025-05-20 14:41:08'),
-    (110, 2, 'Bids', 6321322.00, 'Bidding item : Natri Clorid', '2025-05-20 14:49:41'),
-    (111, 2, 'Bids', 5123232.00, 'Bidding item : Stephen Hawking', '2025-05-20 14:49:58'),
-    (112, 2, 'Bids', 6321322.00, 'Bidding item : Natri Clorid', '2025-05-20 14:52:09'),
-    (113, 2, 'Bids', 6321322.00, 'Bidding item : Natri Clorid', '2025-05-20 14:52:17'),
-    (114, 2, 'Bids', 6321322.00, 'Bidding item : Natri Clorid', '2025-05-20 15:00:41'),
-    (115, 2, 'Bids', 5123232.00, 'Bidding item : Stephen Hawking', '2025-05-20 15:00:46'),
-    (116, 1, 'Bids', 11321322.00, 'Bidding item : Natri Clorid', '2025-05-20 15:01:22'),
-    (117, 2, 'Bids', 5123232.00, 'Bidding item : Stephen Hawking', '2025-05-20 15:01:31'),
-    (118, 2, 'Bids', 16321322.00, 'Bidding item : Natri Clorid', '2025-05-20 15:01:44'),
-    (119, 2, 'Add Funds', 20000000.00, 'JQW', '2025-05-20 15:02:20'),
-    (120, 2, 'Bids', 16321322.00, 'Bidding item : Natri Clorid', '2025-05-20 15:02:29'),
-    (121, 2, 'Confirm', 16321322.00, 'Confirm payment: Natri Clorid', '2025-05-20 15:05:07'),
-    (122, 2, 'Confirm', 6321322.00, 'Confirm payment: Natri Clorid 2', '2025-05-20 15:08:52'),
-    (123, 2, 'Add Funds', 5000000.00, 'RQW', '2025-05-20 22:03:50'),
-    (124, 2, 'Add Funds', 3000000.00, 'LQWE', '2025-05-22 14:12:02'),
-    (125, 2, 'Withdrawal', 1000000.00, 'QƯQƯ', '2025-05-22 14:19:34'),
-    (126, 2, 'Add Funds', 3000000.00, 'LQOO', '2025-05-22 14:27:56'),
-    (127, 2, 'Confirm', 6232132.00, 'Confirm payment: Soffell', '2025-05-22 16:43:53'),
-    (128, 2, 'Add Funds', 4000000.00, 'MQA', '2025-05-25 18:12:04'),
-    (129, 2, 'Add Funds', 5000000.00, 'MUI', '2025-05-25 18:12:52'),
-    (130, 2, 'Add Funds', 2000000.00, 'MKO', '2025-05-25 18:13:36'),
-    (131, 2, 'Add Funds', 6000000.00, 'MAX', '2025-05-25 23:12:14'),
-    (132, 2, 'Add Funds', 3000000.00, 'POAA', '2025-05-25 23:13:35'),
-    (133, 2, 'Add Funds', 3000000.00, 'MQAL', '2025-05-26 15:12:55'),
-    (134, 2, 'Add Funds', 6000000.00, 'MKCZ', '2025-05-26 15:40:02'),
-    (135, 2, 'Withdrawal', 2000000.00, 'QAD', '2025-05-26 15:51:54'),
-    (136, 2, 'Withdrawal', 2000000.00, 'QAP', '2025-05-26 15:52:28'),
-    (137, 2, 'Bids', 5123233.00, 'Bidding item : Open minded book', '2025-05-26 16:47:43'),
-    (138, 1, 'Bids', 10123233.00, 'Bidding item : Open minded book', '2025-05-26 16:48:25'),
-    (139, 2, 'Confirm', 12343432.00, 'Confirm payment: Graff Butterfly Full Motif', '2025-05-26 16:49:00'),
-    (140, 2, 'Bids', 15123233.00, 'Bidding item : Open minded book', '2025-05-26 16:49:35'),
-    (141, 2, 'Add Funds', 50000000.00, 'LQA', '2025-05-28 10:43:10'),
-    (142, 2, 'Bids', 5123233.00, 'Bidding item : New Sacai x Nike LD Waffle Black White ', '2025-05-28 10:43:24'),
-    (143, 2, 'Bids', 5343244.00, 'Bidding item : Nike Dunk Low Retro Men''s Shoes', '2025-05-28 10:47:26'),
-    (144, 2, 'Bids', 8000000.00, 'Bidding item : Amphora snakes handle Geometric', '2025-05-28 14:11:23'),
-    (145, 2, 'Confirm', 5123233.00, 'Confirm payment: New Sacai x Nike LD Waffle Black White ', '2025-05-28 14:24:00'),
-    (146, 2, 'Confirm', 30033252.00, 'Confirm payment: Judith Leiber Precious Rose', '2025-05-28 16:31:31');
-`);
-    await connection.query(`
-      INSERT INTO transactions (txn_ref, createdate, paydate, infor) VALUES
-	('0LUS6GCDB0', '20250525231148', '20250525231236', 'MAX'),
-	('16SOAH2PDB', '20250525211905', NULL, NULL),
-	('1GDSJVQEVG', '20250525230852', '20250525230947', 'LAX'),
-	('2A3ERULQZB', '20250525213745', '20250525213832', NULL),
-	('3Z9Y0IVYPJ', '20250528104234', '20250528104333', 'LQA'),
-	('6JK44T77R0', '20250525224204', '20250525224255', 'LQA'),
-	('6UMW28T8D9', '20250528104102', NULL, 'LPA'),
-	('D0NYT7G3JM', '20250526153935', '20250526154028', 'MKCZ'),
-	('EXAHUHXJSK', '20250525230429', '20250525230525', 'QAD'),
-	('G6XQ3W1W0W', '20250525212402', NULL, NULL),
-	('GAS0G5BTIB', '20250525222636', '20250525222729', 'LÁĐ'),
-	('GP879DNZQ7', '20250525221106', NULL, 'LAS'),
-	('HRYNPKM2J3', '20250525230407', NULL, 'LQA'),
-	('J7FHWUYUCZ', '20250525222258', '20250525222349', 'QES'),
-	('L2QCXF89S8', '20250525222244', NULL, 'LÁDÁ'),
-	('MCC9QR7WU4', '20250525211802', NULL, NULL),
-	('NUS4BH9RL0', '20250525231259', '20250525231400', 'POAA'),
-	('OP0SI9D6ZV', '20250525213549', '20250525213638', NULL),
-	('PB0Q2E67VJ', '20250525221558', '20250525221655', 'LADS'),
-	('RV2QGR4LQ2', '20250525214019', '20250525214108', NULL),
-	('TSSQFH8K6P', '20250528104123', '20250528104213', 'LAD'),
-	('TZNSHWQ9YI', '20250525223642', '20250525223742', 'LAD'),
-	('UYXK1DVYA0', '20250526151225', '20250526151319', 'MQAL'),
-	('X71N4JIXV1', '20250525224410', '20250525224504', 'LQAAD');
-    `);
-
-    console.log("✅ All tables created successfully.");
-    await connection.end();
-  } catch (err) {
-    console.error("❌ Error initializing database:", err);
-    process.exit(1);
-  }
+(async () => {
+    try {
+        const conn = await pool.getConnection();
+        console.log("Database connection successful!");
+        conn.release(); 
+    } catch (err) {
+        console.error(" Database connection failed:", err.message);
+        process.exit(1); 
+    }
 })();
+
+module.exports = pool;
