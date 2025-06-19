@@ -14,7 +14,7 @@ require('dotenv').config();
 
     // 👉 Tạo bảng KHÔNG có foreign key trước
     await connection.query(`
-      INSERT INTO `product` (`id`, `name`, `startingPrice`, `auctionTime`, `category`, `images`, `description`, `highest_bid`, `highest_bidder_user`) VALUES
+      INSERT INTO product (id, name, startingPrice, auctionTime, category, images, description, highest_bid, highest_bidder_user) VALUES
 	(1, 'Nike Off-White x Air Jordan 1 Retro High OG ‘Chicago’ ', 1212122.00, '2025-05-11 16:15:00', 'Sports Memorabilia', '["1744363469490_prod-3(1).png","1744363469490_prod-3(2).png","1744363469491_prod-3(3).png","1744363469492_prod-3(4).png"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 6212122.00, '5GYs7HKFgkPybUmK6KQ80mNBrZh1'),
 	(2, 'New Sacai x Nike LD Waffle Black White ', 123233.00, '2025-05-28 09:46:00', 'Sports Memorabilia', '["1744363613524_prod-4(1).png","1744363613547_prod-4(2).png","1744363613552_prod-4(3).png","1744363613558_prod-4(4).png"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 5123233.00, '5GYs7HKFgkPybUmK6KQ80mNBrZh1'),
 	(3, 'Nike Dunk Low Retro Men\'s Shoes', 343244.00, '2025-05-28 09:48:00', 'Sports Memorabilia', '["1744363683984_prod-6(1).png","1744363683984_prod-6(2).png","1744363683984_prod-6(3).png","1744363683984_prod-6(4).png"]', 'This elegant vintage wristwatch combines timeless design with precise Swiss craftsmanship, making it a standout accessory for any collection. The stainless steel case, paired with a genuine leather strap, showcases both durability and classic style. Perfectly functional and well-maintained, it offers both aesthetic appeal and everyday usability for watch enthusiasts.', 5343244.00, '5GYs7HKFgkPybUmK6KQ80mNBrZh1'),
@@ -70,7 +70,7 @@ require('dotenv').config();
     `);
 
     await connection.query(`
-      INSERT INTO `wallets` (`id`, `user_id`, `balance`, `pending_bids`) VALUES
+      INSERT INTO wallets (id, user_id, balance, pending_bids) VALUES
 	(1, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 38489679.965500, 0.00),
 	(2, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 48135206.977500, 0.00),
 	(4, 'Mzc7l8vZNfOlITmXFIWXAzyt6cW2', 0.000000, 0.00),
@@ -78,33 +78,48 @@ require('dotenv').config();
     `);
 
     await connection.query(`
-      INSERT INTO `payments` (`id`, `user_id`, `won_item_id`, `paid_at`, `shipping_address`, `phoneNumber`, `deliveredTime`, `shipping_method`) VALUES
-	(1, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 8, '2025-05-06 14:58:38', 'Hue, đà nẵng, vn', '0867797246', '2025-05-10 15:08:44', 'Standard'),
-	(2, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 7, '2025-05-06 15:08:44', 'Hue, đà nẵng, vn', '0867797246', '2025-05-10 15:08:44', 'Standard'),
-	(3, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 6, '2025-05-06 15:34:14', 'Da Nang, đà nẵng, vn', '0867797246', '2025-05-10 15:34:14', 'Standard'),
-	(4, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 6, '2025-05-06 15:36:18', 'Da Nang, đà nẵng, vn', '0867797246', '2025-05-10 15:36:18', 'Standard'),
-	(5, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 5, '2025-05-06 15:43:29', 'Hue, đà nẵng, vn', '0867797246', '2025-05-10 15:43:29', 'Standard'),
-	(6, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 2, '2025-05-06 15:44:49', 'Hue, đà nẵng, vn', '0867797246', '2025-05-10 15:44:49', 'Standard'),
-	(7, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 4, '2025-05-06 15:50:11', 'Hue, đà nẵng, vn', '0867797246', '2025-05-10 15:50:11', 'Standard'),
-	(8, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 3, '2025-05-09 16:37:50', 'Hue, đà nẵng, ds', '0867797246', '2025-05-13 16:37:50', 'Standard'),
-	(9, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 1, '2025-05-11 10:14:44', 'Hue, dsadsa, xc', '0867797246', '2025-05-15 10:14:44', 'Express'),
-	(10, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 9, '2025-05-11 10:24:35', 'Hue, đà nẵng, vn', '0867797246', '2025-05-15 10:24:35', 'Pickup'),
-	(11, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 10, '2025-05-12 15:30:55', 'Hue, đà nẵng, xc', '0867797246', '2025-05-16 15:30:55', 'Express'),
-	(12, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 13, '2025-05-15 15:25:30', 'Da Nang, đà nẵng, vn', '0867797246', '2025-05-19 15:25:30', 'Express'),
-	(13, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 14, '2025-05-15 15:38:52', 'Hue, đà nẵng, vn', '0867797246', '2025-05-19 15:38:52', 'Express'),
-	(14, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 11, '2025-05-15 15:51:24', 'Hue, đà nẵng, xc', '0867797246', '2025-05-19 15:51:24', 'Express'),
-	(15, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 17, '2025-05-15 22:18:59', 'Hue, đà nẵng, vn', '0867797246', '2025-05-19 22:18:59', 'Standard'),
-	(16, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 18, '2025-05-16 15:38:47', 'Hue, đà nẵng, vn', '0867797246', '2025-05-20 15:38:47', 'Express'),
-	(17, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 30, '2025-05-20 15:05:08', 'Hue, đà nẵng, vn', '0867797246', '2025-05-24 15:05:08', 'Express'),
-	(18, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 29, '2025-05-20 15:08:52', 'Hue, đà nẵng, xc', '0867797246', '2025-05-24 15:08:52', 'Express'),
-	(19, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 28, '2025-05-22 16:43:53', 'Hue, đà nẵng, xc', '0867797246', '2025-05-26 16:43:53', 'Express'),
-	(20, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 33, '2025-05-26 16:49:00', 'Hue, đà nẵng, xc', '0867797246', '2025-05-30 16:49:00', 'Standard'),
-	(21, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 37, '2025-05-28 14:24:00', 'Da Nang, đà nẵng, xc', '0867797246', '2025-06-01 14:24:00', 'Pickup'),
-	(22, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 34, '2025-05-28 16:31:31', 'Hue, đà nẵng, xc', '0867797246', '2025-06-01 16:31:31', 'Standard');
+      INSERT INTO won_items (id, user_id, product_id, final_price, status, won_at, created_at, payment_due) VALUES
+	(1, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 29, 1321322.00, 'Received', '2025-04-29 23:33:02', '2025-04-29 23:33:02', '2025-05-02 23:33:02'),
+	(2, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 30, 1213232.00, 'Received', '2025-04-29 23:33:02', '2025-04-29 23:33:02', '2025-05-02 23:33:02'),
+	(3, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 31, 38133332.02, 'Delivered', '2025-04-29 23:33:02', '2025-04-29 23:33:02', '2025-05-02 23:33:02'),
+	(4, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 32, 1233223.01, 'Delivered', '2025-04-29 23:33:02', '2025-04-29 23:33:02', '2025-05-02 23:33:02'),
+	(5, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 33, 33232.02, 'Received', '2025-04-29 23:33:02', '2025-04-29 23:33:02', '2025-05-02 23:33:02'),
+	(6, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 34, 21323.01, 'Received', '2025-04-29 23:37:02', '2025-04-29 23:37:02', '2025-05-02 23:37:02'),
+	(7, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 24, 313233.02, 'Received', '2025-04-30 10:28:00', '2025-04-30 10:28:00', '2025-05-03 10:28:00'),
+	(8, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 15, 2545435.03, 'Delivered', '2025-05-04 21:23:00', '2025-05-04 21:23:00', '2025-05-07 21:23:00'),
+	(9, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 7, 9867676.03, 'Delivered', '2025-05-11 10:24:08', '2025-05-11 10:24:08', '2025-05-14 10:24:08'),
+	(10, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 4, 10321323.00, 'Received', '2025-05-12 14:38:00', '2025-05-12 14:38:00', '2025-05-15 14:38:00'),
+	(11, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 5, 42324344.00, 'Delivered', '2025-05-13 15:07:00', '2025-05-15 18:07:00', '2025-05-16 15:07:00'),
+	(12, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 10, 86767676.00, 'Cancel', '2025-05-15 12:26:06', '2025-05-15 15:10:06', '2025-05-18 12:26:06'),
+	(13, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 6, 10433523.00, 'Received', '2025-05-15 14:09:44', '2025-05-18 14:09:44', '2025-05-20 14:09:44'),
+	(14, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 9, 15054345.00, 'Delivered', '2025-05-15 15:37:01', '2025-05-18 15:37:01', '2025-05-20 15:37:01'),
+	(17, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 8, 25543545.00, 'Received', '2025-05-15 15:53:53', '2025-05-18 15:53:53', '2025-05-20 15:53:53'),
+	(18, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 12, 47334343.00, 'Received', '2025-05-15 16:07:28', '2025-05-18 16:07:28', '2025-05-20 16:07:28'),
+	(19, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 17, 19342322.00, 'Cancel', '2025-05-15 16:55:49', '2025-05-18 16:55:49', '2025-05-20 16:55:49'),
+	(20, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 18, 5012323.00, 'Cancel', '2025-05-15 16:57:36', '2025-05-18 16:57:36', '2025-05-20 16:57:36'),
+	(21, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 19, 21111111.00, 'Cancel', '2025-05-15 22:13:31', '2025-05-18 22:13:31', '2025-05-20 22:13:31'),
+	(22, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 20, 6111111.00, 'Cancel', '2025-05-15 22:22:08', '2025-05-18 22:22:08', '2025-05-20 22:22:08'),
+	(23, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 21, 16212121.00, 'Cancel', '2025-05-15 22:36:38', '2025-05-18 22:36:38', '2025-05-20 22:36:38'),
+	(24, '4USb5jsNK4Yxhh9CrWvZJh4widm1', 38, 19000000.00, 'Cancel', '2025-05-16 15:41:00', '2025-05-19 15:41:00', '2025-05-21 15:41:00'),
+	(25, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 37, 14000000.00, 'Cancel', '2025-05-17 09:37:47', '2025-05-20 09:37:47', '2025-05-22 09:37:47'),
+	(26, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 36, 10000000.00, 'Cancel', '2025-05-17 09:37:54', '2025-05-20 09:37:54', '2025-05-22 09:37:54'),
+	(27, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 35, 6000000.00, 'Cancel', '2025-05-17 09:44:02', '2025-05-20 09:44:02', '2025-05-22 09:44:02'),
+	(28, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 26, 6232132.00, 'Received', '2025-05-20 12:42:00', '2025-05-23 12:42:00', '2025-05-25 12:42:00'),
+	(29, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 28, 6321322.00, 'Received', '2025-05-20 14:47:39', '2025-05-23 14:47:39', '2025-05-25 14:47:39'),
+	(30, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 27, 16321322.00, 'Received', '2025-05-20 15:03:00', '2025-05-23 15:03:00', '2025-05-25 15:03:00'),
+	(31, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 25, 5123232.00, 'Cancel', '2025-05-20 15:03:05', '2025-05-23 15:03:05', '2025-05-25 15:03:05'),
+	(32, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 22, 3232322.02, 'Cancel', '2025-05-23 14:15:16', '2025-05-26 14:15:16', '2025-05-28 14:15:16'),
+	(33, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 16, 12343432.00, 'Received', '2025-05-26 16:48:05', '2025-05-29 16:48:05', '2025-05-31 16:48:05'),
+	(34, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 13, 30033252.00, 'Delivered', '2025-05-26 16:49:42', '2025-05-29 16:49:42', '2025-05-31 16:49:42'),
+	(35, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 1, 6212122.00, 'Cancel', '2025-05-26 16:49:50', '2025-05-29 16:49:50', '2025-05-31 16:49:50'),
+	(36, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 23, 15123233.00, 'Cancel', '2025-05-26 16:50:45', '2025-05-29 16:50:45', '2025-05-31 16:50:45'),
+	(37, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 2, 5123233.00, 'Received', '2025-05-28 10:46:00', '2025-05-31 10:46:00', '2025-06-02 10:46:00'),
+	(38, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 3, 5343244.00, 'Cancel', '2025-05-28 10:48:00', '2025-05-31 10:48:00', '2025-06-02 10:48:00'),
+	(39, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 39, 8000000.00, 'Cancel', '2025-05-28 14:15:01', '2025-05-31 14:15:01', '2025-06-02 14:15:01');
     `);
 
     await connection.query(`
-      INSERT INTO `bid_history` (`id`, `product_id`, `user_id`, `bid_amount`, `bid_time`) VALUES
+      INSERT INTO bid_history (id, product_id, user_id, bid_amount, bid_time) VALUES
 	(1, 30, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 1413232.06, '2025-04-25 08:58:15'),
 	(2, 30, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 1413232.07, '2025-04-25 08:58:22'),
 	(3, 30, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 1413232.08, '2025-04-25 08:58:25'),
@@ -222,7 +237,7 @@ require('dotenv').config();
     `);
 
     await connection.query(`
-      INSERT INTO `payments` (`id`, `user_id`, `won_item_id`, `paid_at`, `shipping_address`, `phoneNumber`, `deliveredTime`, `shipping_method`) VALUES
+      INSERT INTO payments (id, user_id, won_item_id, paid_at, shipping_address, phoneNumber, deliveredTime, shipping_method) VALUES
 	(1, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 8, '2025-05-06 14:58:38', 'Hue, đà nẵng, vn', '0867797246', '2025-05-10 15:08:44', 'Standard'),
 	(2, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 7, '2025-05-06 15:08:44', 'Hue, đà nẵng, vn', '0867797246', '2025-05-10 15:08:44', 'Standard'),
 	(3, '5GYs7HKFgkPybUmK6KQ80mNBrZh1', 6, '2025-05-06 15:34:14', 'Da Nang, đà nẵng, vn', '0867797246', '2025-05-10 15:34:14', 'Standard'),
@@ -248,7 +263,7 @@ require('dotenv').config();
     `);
 
     await connection.query(`
-     INSERT INTO `wallet_transactions` (`id`, `wallet_id`, `type`, `amount`, `description`, `created_at`) VALUES
+     INSERT INTO wallet_transactions (id, wallet_id, type, amount, description, created_at) VALUES
 	(1, 1, 'Bids', 1321322.06, 'Bidding item : Pie', '2025-05-09 14:19:02'),
 	(2, 1, 'Bids', 1321322.07, 'Bidding item : Pie', '2025-05-09 14:34:21'),
 	(3, 1, 'Bids', 1321322.08, 'Bidding item : Pie', '2025-05-09 14:35:50'),
@@ -398,7 +413,7 @@ require('dotenv').config();
     `);
 
     await connection.query(`
-      INSERT INTO `transactions` (`txn_ref`, `createdate`, `paydate`, `infor`) VALUES
+      INSERT INTO transactions (txn_ref, createdate, paydate, infor) VALUES
 	('0LUS6GCDB0', '20250525231148', '20250525231236', 'MAX'),
 	('16SOAH2PDB', '20250525211905', NULL, NULL),
 	('1GDSJVQEVG', '20250525230852', '20250525230947', 'LAX'),
