@@ -1,12 +1,27 @@
 const path = require("path");
 const db = require("../config/db");
+const cloudinary = require('cloudinary').v2;
+require('dotenv').config();
+cloudinary.config({
+    cloud_name: 'dd6a5ng6f',
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
 
 exports.createProduct = async (req, res) => {
     try {
         const { name, startingPrice, auctionTime, category, description } = req.body;
 
-        const fileNames = req.files ? req.files.map(file => file.filename) : [];
-        console.log("Uploaded files:", fileNames);
+        let fileUrl = [];
+        if (req.files && req.files.length > 0) {
+            const uploadPath = await req.files.map(file => {
+                return cloudinary.uploader.upload(file.path)
+            });
+            const uploadrs = await Promise.all(uploadPath);
+            fileUrl = uploadrs.map(file => file.public_id);
+        }
+
+        console.log("Uploaded files:", fileUrl);
 
         const cleanedPrice = parseFloat(
             startingPrice.toString().replace(/[^\d]/g, "")
@@ -22,7 +37,7 @@ exports.createProduct = async (req, res) => {
             cleanedPrice,
             auctionTime,
             category,
-            JSON.stringify(fileNames),
+            JSON.stringify(fileUrl),
             description,
             cleanedPrice
         ];
@@ -40,6 +55,7 @@ exports.createProduct = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
 
 exports.getAllProducts = async (req, res) => {
     try {
