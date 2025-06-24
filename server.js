@@ -254,9 +254,11 @@ wss.on('connection', (ws) => {
                     [bidAmount, userId, auctionId]
                 );
 
+                const bidTime = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
                 await pool.execute(
                     'INSERT INTO bid_history (product_id, user_id, bid_amount, bid_time) VALUES (?, ?, ?, ?)',
-                    [auctionId, userId, bidAmount, new Date().toISOString()]
+                    [auctionId, userId, bidAmount, bidTime]
                 );
 
                 await pool.execute(
