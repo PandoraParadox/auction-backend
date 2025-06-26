@@ -37,7 +37,7 @@ exports.createTransaction = async (req, res) => {
 
         const newPending = type === "Confirm" ? parseFloat(wallet.pending_bids) - parseFloat(amount) : wallet.pending_bids;
 
-        if (type !== "Confirm" && (newBalance < 0 || newBalance < wallet.pending_bids)) {
+        if (type !== "Confirm" && type !== "Bids" && (newBalance < 0 || newBalance < wallet.pending_bids)) {
             return res.status(500).json({ message: "Invalid balance" });
         } else if (type === "Confirm" && (newBalance < 0 || newBalance < newPending)) {
             return res.status(500).json({ message: "Invalid balance" });
