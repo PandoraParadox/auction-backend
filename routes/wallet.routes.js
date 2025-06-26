@@ -7,7 +7,7 @@ const { verifyToken } = require('../middleware/auth');
 router.post("/", verifyToken, walletController.createWallet);
 router.get("/:userId", walletController.getWalletByUserId);
 
-router.post("/transaction", walletController.createTransaction);
+router.post("/transaction", verifyToken, walletController.createTransaction);
 router.get("/transactions/:userId", walletController.getTransactionsByUserId);
 router.get("/gettrans/all", walletController.getAllTransactions);
 
