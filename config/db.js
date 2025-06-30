@@ -25,5 +25,18 @@ const pool = mysql.createPool({
         process.exit(1); 
     }
 })();
+(async () => {
+    try {
+        const conn = await pool.getConnection();
+        const [result] = await conn.query(`
+            ALTER TABLE product 
+            MODIFY COLUMN startingPrice DECIMAL(20, 0)
+        `);
+        console.log("✅ Cột 'startingPrice' đã được chỉnh sửa thành DECIMAL(20, 0)");
+        conn.release();
+    } catch (err) {
+        console.error("❌ Không thể chỉnh sửa cột 'startingPrice':", err.message);
+    }
+})();
 
 module.exports = pool;
