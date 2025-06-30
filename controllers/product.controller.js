@@ -135,6 +135,10 @@ exports.updateProduct = async (req, res) => {
                 updates.push('startingPrice = ?');
                 values.push(parseFloat(startingPrice.toString().replace(/[^\d]/g, "")));
             }
+            if (startingPrice !== undefined) {
+                updates.push('highest_bid = ?');
+                values.push(parseFloat(startingPrice.toString().replace(/[^\d]/g, "")));
+            }
             if (auctionTime !== undefined) {
                 updates.push('auctionTime = ?');
                 values.push(auctionTime);
