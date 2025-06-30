@@ -25,32 +25,6 @@ const pool = mysql.createPool({
         process.exit(1); 
     }
 })();
-(async () => {
-    try {
-        const conn = await pool.getConnection();
 
-        const alterStatements = [
-            `ALTER TABLE product MODIFY COLUMN highest_bid DECIMAL(20, 0)`,
-            `ALTER TABLE bid_history MODIFY COLUMN bid_amount DECIMAL(20, 0)`,
-            `ALTER TABLE wallets MODIFY COLUMN balance DECIMAL(20, 0)`,
-            `ALTER TABLE wallets MODIFY COLUMN pending_bids DECIMAL(20, 0)`,
-            `ALTER TABLE wallet_transactions MODIFY COLUMN amount DECIMAL(20, 0)`,
-            `ALTER TABLE won_items MODIFY COLUMN final_price DECIMAL(20, 0)`
-        ];
-
-        for (const sql of alterStatements) {
-            try {
-                await conn.query(sql);
-                console.log(`✅ Đã cập nhật: ${sql}`);
-            } catch (err) {
-                console.error(`❌ Lỗi khi cập nhật: ${sql}\n   ↳ ${err.message}`);
-            }
-        }
-
-        conn.release();
-    } catch (err) {
-        console.error("❌ Lỗi kết nối khi cập nhật schema:", err.message);
-    }
-})();
 
 module.exports = pool;
